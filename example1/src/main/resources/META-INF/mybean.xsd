@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.coderme.cn/schema/mybean"
+        xmlns:tns="http://www.coderme.cn/schema/mybean" elementFormDefault="qualified">
+    <element name="mybean">
+        <complexType>
+            <attribute name="id" type="string"/>
+            <attribute name="userid" type="string"/>
+            <attribute name="username" type="string"/>
+            <attribute name="usercode" type="string"/>
+        </complexType>
+    </element>
+</xsd:schema>
