@@ -35,4 +35,13 @@ public class MyBean {
     public void setUsercode(String usercode) {
         this.usercode = usercode;
     }
+
+    public MyBean() {
+    }
+
+    public MyBean(Long userid, String username, String usercode) {
+        this.userid = userid;
+        this.username = username;
+        this.usercode = usercode;
+    }
 }
