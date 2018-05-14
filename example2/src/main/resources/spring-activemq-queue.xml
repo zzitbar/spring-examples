@@ -18,18 +18,14 @@
         http://activemq.apache.org/schema/core/activemq-core-5.12.1.xsd"
 >
 
-    <!-- ActiveMQ 连接工厂 -->
-    <!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供-->
-    <!-- 如果连接网络：tcp://ip:61616；未连接网络：tcp://localhost:61616 以及用户名，密码-->
-    <!--<amq:connectionFactory id="amqConnectionFactory"-->
-                           <!--brokerURL="tcp://127.0.0.1:61616"-->
-                           <!--userName="admin"-->
-                           <!--password="admin" />-->
-
     <!-- 配置JMS连接工厂 -->
-    <bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
-        <property name="brokerURL" value="failover:(tcp://127.0.0.1:61616)" />
+    <bean id="targetConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://127.0.0.1:61616" />
         <property name="useAsyncSend" value="true" />
+    </bean>
+    <bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory"  >
+        <property name="connectionFactory" ref="targetConnectionFactory" />
+        <property name="maxConnections" value="10"/>
     </bean>
     <!-- 配置JMS连接工长 -->
     <!--<bean id="connectionFactory"-->
@@ -53,12 +49,37 @@
         <property name="pubSubDomain" value="false" />
     </bean>
 
-    <!-- 配置消息队列监听者（Queue） -->
-    <bean id="queueMessageListener" class="com.coderme.mq.queue.QueueMessageListener" />
-    <!-- 消息监听容器 -->
-    <bean id="jmsContainer"   class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+    <!--消息监听器实现一：实现MessageListener接口-->
+    <bean id="jmsContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
         <property name="connectionFactory" ref="connectionFactory" />
         <property name="destination" ref="demoQueueDestination" />
         <property name="messageListener" ref="queueMessageListener" />
+        <property name="sessionAcknowledgeMode" value="1"/>
     </bean>
+
+    <!--消息监听器实现二：实现SessionAwareMessageListener接口-->
+    <bean id="sessionAwareContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="demoQueueDestination" />
+        <property name="messageListener" ref="queueMsgSessionAwareMessageListener" />
+        <property name="sessionAcknowledgeMode" value="1"/>
+    </bean>
+
+    <!--消息监听器实现三：继承MessageListenerAdapter类-->
+    <bean id="messageListenerAdapter" class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
+        <!--<constructor-arg>-->
+            <!--<bean class="com.coderme.mq.queue.QueueMsgMessageListenerAdapter"/>-->
+        <!--</constructor-arg>-->
+        <property name="delegate" ref="QueueMsgMessageListenerAdapter"/>
+        <property name="defaultListenerMethod" value="receiveMessage"/>
+        <property name="defaultResponseDestination" ref="topicDestination"/>
+    </bean>
+    <bean id="messageListenerAdapterContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="destination" ref="demoQueueDestination" />
+        <property name="messageListener" ref="messageListenerAdapter" />
+        <property name="sessionAcknowledgeMode" value="1"/>
+    </bean>
+
+
 </beans>

@@ -17,6 +17,8 @@ public class ConsumerMessageListener implements MessageListener{
             System.out.println("消息Destination:\t" + tm.getJMSDestination());
             System.out.println("---------更多信息---------");
             System.out.println("-------------------------");
+            //手动确认
+//            message.acknowledge();
         } catch (JMSException e) {
             e.printStackTrace();
         }

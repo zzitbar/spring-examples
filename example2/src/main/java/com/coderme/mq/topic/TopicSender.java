@@ -38,7 +38,6 @@ public class TopicSender {
         System.out.println("spring send text message...");
     }
 
-
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
