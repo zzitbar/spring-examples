@@ -16,11 +16,13 @@ public class QueueProducer {
 
     @Test
     public void testProducer() {
+        // 生产消息
         new QueueProducer().producer("test-queue1");
     }
 
     @Test
     public void testConsume() {
+        // 消费消息（阻塞）
         new QueueConsumer().consume("test-queue1");
     }
 
