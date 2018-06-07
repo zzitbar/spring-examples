@@ -6,14 +6,13 @@
          version="3.0">
   <display-name>example3-springmvc</display-name>
 
-  <listener>
-    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-  </listener>
-
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>classpath*:root-context.xml</param-value>
   </context-param>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
 
   <servlet>
     <servlet-name>springmvc</servlet-name>

@@ -4,6 +4,6 @@
 
 工具：
 
-IDE：IntelliJ IDEA 2016.3
+IDE：IntelliJ IDEA 2017.3
 
 构建工具：maven3

@@ -1,0 +1,15 @@
+@startuml
+Servlet -> GenericServlet: service(ServletRequest req, ServletResponse res)
+GenericServlet --> HttpServlet: service(ServletRequest req, ServletResponse res)
+HttpServlet --> FrameworkServlet: service(HttpServletRequest request, HttpServletResponse response)
+FrameworkServlet --> HttpServlet: service(HttpServletRequest request, HttpServletResponse response)
+
+HttpServlet --> FrameworkServlet: doGet doPost doPut ...
+FrameworkServlet --> FrameworkServlet: processRequest(HttpServletRequest request, HttpServletResponse response)
+FrameworkServlet --> FrameworkServlet: doService(HttpServletRequest request, HttpServletResponse response)
+
+FrameworkServlet --> DispatcherServlet: doService(HttpServletRequest request, HttpServletResponse response)
+
+DispatcherServlet --> DispatcherServlet: doDispatch(HttpServletRequest request, HttpServletResponse response)
+
+@enduml

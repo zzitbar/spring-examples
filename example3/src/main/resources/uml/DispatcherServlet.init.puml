@@ -1,0 +1,8 @@
+@startuml
+Servlet -> GenericServlet: init(ServletConfig config)
+GenericServlet --> HttpServletBean: init()
+HttpServletBean --> FrameworkServlet: initServletBean()
+FrameworkServlet --> DispatcherServlet: onRefresh(ApplicationContext context)
+DispatcherServlet --> DispatcherServlet: initStrategies(ApplicationContext context)
+
+@enduml
